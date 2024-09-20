@@ -1,76 +1,39 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Form
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-
-import { Calendar } from "@/components/ui/calendar"
-import { cn } from "./lib/utils"
-import { format } from "date-fns"
-import { CalendarIcon } from "@radix-ui/react-icons"
-
-
-import { Check, ChevronsUpDown } from "lucide-react"
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
+import { ComboxForm, DateForm, InputForm, SelectForm } from "./components/form"
+import { Button } from "./components/ui/button"
 
 const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const
+  { value: "en", label: "English" },
+  { value: "es", label: "Spanish" },
+  // otras opciones...
+];
 
+const emailOptions = [
+  { value: "m@example.com", label: "m@example.com" },
+  { value: "m@google.com", label: "m@google.com" },
+  { value: "m@support.com", label: "m@support.com" },
+];
 
 const FormSchema = z.object({
-  dob: z.date({
-    required_error: "A date of birth is required.",
+  fecha: z.date({
+    required_error: "Se requiere una Fecha.",
   }),
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  language: z.string({
+  nombre: z.string().min(2, { message: "Nombre debe tener al menos 2 caracteres." }),
+  edad: z.string().min(2, { message: "Se requiere una edad" }),
+  doctor: z.string({
     required_error: "Please select a language.",
   }),
-  email: z
-    .string({
-      required_error: "Please select an email to display.",
-    })
-    .email(),
+  estudio: z.string({
+    required_error: "Please select a language.",
+  }),
+  tipoEstudio: z.string({
+    required_error: "Please select a language.",
+  }),
 })
 
 const App = () => {
@@ -78,32 +41,129 @@ const App = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      fecha: new Date(),
+      nombre: "",
+      edad: "",
+      doctor: "",
+      estudio: "",
+      tipoEstudio: "",
     },
-  })
+  });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
   }
 
   return (
-    <div>
-      <div className="md:w-1/2 lg:w-2/5 mx-5">
-        <h2 className="font-black text-3xl text-center">Seguimiento Pacientes</h2>
+    <div className="w-1/2  mx-auto p-4">
+      {/* Título del formulario */}
+      <h2 className="text-lg font-bold mb-4">Formulario</h2>
 
-        <p className="text-lg mt-5 text-center mb-10">
-          Añade Pacientes y <span className="text-indigo-600 font-bold">Administralos</span>
-        </p>
+      {/* Formulario con dos columnas */}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-2 gap-4">
 
-        <form
-          className="bg-white shadow-md rounded-lg py-10 px-5 mb-10"
-        ></form>
-      </div>
+            <DateForm
+              control={form.control}
+              name="fecha"
+              label="Fecha de Nacimiento"
+              placeholder="Selecciona una fecha"
+            />
+
+            <InputForm
+              control={form.control}
+              name="nombre"
+              label="Paciente"
+              placeholder="Nombre del paciente"
+            />
+            <InputForm
+              control={form.control}
+              name="edad"
+              label="Edada"
+              placeholder="Edad del Paciente"
+            />
+
+            <ComboxForm
+              control={form.control}
+              name="doctor"
+              label="Medico"
+              options={languages}
+              placeholder="Seleciona un medico"
+            />
+
+            <SelectForm
+              control={form.control}
+              name="estudio"
+              label="Estudio"
+              options={emailOptions}
+              placeholder="Select a verified email to display"
+            />
+
+            <SelectForm
+              control={form.control}
+              name="tipoEstudio"
+              label="Tipo de Estudio"
+              options={emailOptions}
+              placeholder="Select a verified email to display"
+            />
+
+            <InputForm
+              control={form.control}
+              name="edad"
+              label="Cancelo"
+              placeholder="Edad del Paciente"
+            />
+
+            <SelectForm
+              control={form.control}
+              name="tipoEstudio"
+              label="Turno"
+              options={emailOptions}
+              placeholder="Select a verified email to display"
+            />
+
+            <SelectForm
+              control={form.control}
+              name="tipoEstudio"
+              label="Forma Pago"
+              options={emailOptions}
+              placeholder="Select a verified email to display"
+            />
+
+            <InputForm
+              control={form.control}
+              name="edad"
+              label="Nro. Factura"
+              placeholder="Edad del Paciente"
+            />
+
+            <InputForm
+              control={form.control}
+              name="edad"
+              label="Seguro"
+              placeholder="Edad del Paciente"
+            />
+            <InputForm
+              control={form.control}
+              name="edad"
+              label="teléfono"
+              placeholder="Edad del Paciente"
+            />
+          </div>
+
+          {/* Botón de envío */}
+          <div className="mt-4">
+            <Button type="submit" className="p-2 w-full">Registrar</Button>
+          </div>
+        </form>
+      </Form>
     </div>
   )
 }
 
 export default App
+
 
 
 

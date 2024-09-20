@@ -39,12 +39,12 @@ export function DateForm<T extends FieldValues>({
                                 <Button
                                     variant={"outline"}
                                     className={cn(
-                                        "w-[300px] pl-3 text-left font-normal",
+                                        "w-full pl-3 text-left font-normal",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >
                                     {field.value ? (
-                                        format(field.value, "PPP")
+                                        format(field.value, "dd/MM/yyyy")
                                     ) : (
                                         <span>{placeholder || "Pick a date"}</span>
                                     )}

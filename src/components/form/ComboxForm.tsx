@@ -42,7 +42,7 @@ export function ComboxForm<T extends FieldValues>({
                                     variant="outline"
                                     role="combobox"
                                     className={cn(
-                                        "w-[200px] justify-between",
+                                        "w-full justify-between",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >
@@ -53,7 +53,7 @@ export function ComboxForm<T extends FieldValues>({
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
+                        <PopoverContent className="w-full p-0">
                             <Command>
                                 <CommandInput placeholder={`Search ${label.toLowerCase()}...`} />
                                 <CommandList>
