@@ -31,7 +31,7 @@ export function DateForm<T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="flex flex-col mt-2.5">
                     <FormLabel>{label}</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>

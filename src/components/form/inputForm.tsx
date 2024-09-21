@@ -11,7 +11,8 @@ import { Control, Path, FieldValues } from "react-hook-form";
 
 interface Props<T extends FieldValues> {
     control: Control<T>;
-    name: Path<T>; // Utiliza Path<T> para que coincida con los nombres válidos de los campos
+    name: Path<T>;
+    type?: string,
     label: string;
     placeholder?: string;
     description?: string;
@@ -20,9 +21,10 @@ interface Props<T extends FieldValues> {
 export function InputForm<T extends FieldValues>({
     control,
     name,
+    type = 'text',
     label,
     placeholder,
-    description,
+    description
 }: Props<T>) {
     return (
         <FormField
@@ -32,7 +34,20 @@ export function InputForm<T extends FieldValues>({
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
                     <FormControl>
-                        <Input placeholder={placeholder} {...field} />
+                        <Input
+                            {...field}
+                            type={type}
+                            inputMode={type === "number" ? "numeric" : undefined}
+                            placeholder={placeholder}
+                            value={(type === "number" && field.value === 0) ? "" : (field.value || "")}
+                            onChange={(event) => {
+                                if (type === "number") {
+                                    field.onChange(Number(event.target.value));
+                                } else {
+                                    field.onChange(event.target.value);
+                                }
+                            }}
+                        />
                     </FormControl>
                     {description && <FormDescription>{description}</FormDescription>}
                     <FormMessage />

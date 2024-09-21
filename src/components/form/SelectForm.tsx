@@ -19,15 +19,19 @@ interface Props<T extends FieldValues> {
     name: Path<T>;
     label: string;
     placeholder?: string;
-    options: { value: string; label: string }[]; // Opciones de selección
+    options: Array<Record<string, any>>;
+    labelKey: string;
+    valueKey: string;
 }
 
 export function SelectForm<T extends FieldValues>({
     control,
     name,
     label,
-    placeholder = "Select an option",
+    placeholder = "Seleccione una opción",
     options,
+    labelKey,
+    valueKey,
 }: Props<T>) {
     return (
         <FormField
@@ -36,7 +40,15 @@ export function SelectForm<T extends FieldValues>({
             render={({ field }) => (
                 <FormItem>
                     <FormLabel>{label}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                        onValueChange={(value) =>
+                            field.onChange(
+                                isNaN(Number(value)) ? value : Number(value) // Convertir a número si es numérico
+                            )
+                        }
+                        value={field.value?.toString()} // Convertir a string para mantener la consistencia con Select
+                        defaultValue={field.value?.toString()}
+                    >
                         <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder={placeholder} />
@@ -44,8 +56,11 @@ export function SelectForm<T extends FieldValues>({
                         </FormControl>
                         <SelectContent>
                             {options.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
+                                <SelectItem
+                                    key={option[valueKey].toString()} // Convertir el valor a string para la key
+                                    value={option[valueKey].toString()} // Asegurarnos de pasar el valor como string
+                                >
+                                    {option[labelKey]} {/* Mostrar el label */}
                                 </SelectItem>
                             ))}
                         </SelectContent>

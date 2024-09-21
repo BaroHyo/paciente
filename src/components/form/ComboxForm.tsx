@@ -17,7 +17,7 @@ interface Props<T extends FieldValues> {
     control: Control<T>;
     name: Path<T>;
     label: string;
-    options: { value: string; label: string }[]; // Opciones para seleccionar
+    options: Array<Record<string, any>> // Usa Record para permitir cualquier clave y tipo
     placeholder?: string; // Placeholder opcional
 }
 
@@ -33,7 +33,7 @@ export function ComboxForm<T extends FieldValues>({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="flex flex-col mt-2.5">
                     <FormLabel>{label}</FormLabel>
                     <Popover>
                         <PopoverTrigger asChild>
