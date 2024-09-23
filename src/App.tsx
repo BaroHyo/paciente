@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/new",
         element: <PacienteForm />,
+      },
+      {
+        path: "/edit/:id",
+        element: <PacienteForm />,
       }
     ],
   },
