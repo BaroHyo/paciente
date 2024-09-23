@@ -1,13 +1,6 @@
 
 import {
-    Home,
-    LineChart,
-    Package,
-    Package2,
-    PanelLeft,
     Search,
-    ShoppingCart,
-    Users2,
 } from "lucide-react"
 
 import {
@@ -22,7 +15,6 @@ import { Button } from "@/components/ui/button"
 
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
