@@ -1,0 +1,1 @@
+export { PacienteSchema } from "./pacienteSchema";

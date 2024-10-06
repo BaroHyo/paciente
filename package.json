@@ -1,5 +1,5 @@
 {
-  "name": "paciente",
+  "name": "clientapp",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -21,8 +21,11 @@
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@tanstack/react-query": "^5.59.0",
     "@tanstack/react-table": "^8.20.5",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
+    "clientapp": "file:",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
