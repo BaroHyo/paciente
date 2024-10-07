@@ -1,1 +1,2 @@
-export { PacienteSchema } from "./pacienteSchema";
+export { LoginSchema } from "./LoginSchema";
+export { PacienteSchema } from "./PacienteSchema";
