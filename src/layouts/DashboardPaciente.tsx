@@ -38,14 +38,13 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { useStoreUI } from "@/store/storeUI";
+import { useUiStore } from "@/store/ui";
 
 interface NavItem {
   name: string;
   to: string;
   icon: React.ForwardRefExoticComponent<LucideProps & React.RefAttributes<SVGSVGElement>>;
   tooltip?: string;
-  active?: boolean;
 }
 
 interface AsideNavProps {
@@ -53,7 +52,7 @@ interface AsideNavProps {
 }
 
 const items = [
-  { name: "Home", to: "bienvenido", icon: Home, tooltip: "Inicio", active: true },
+  { name: "Home", to: "bienvenido", icon: Home, tooltip: "Inicio", },
   { name: "Usuarios", to: "usuario", icon: User, tooltip: "Usuarios" },
   {
     name: "Catalogos",
@@ -73,7 +72,7 @@ const items = [
 
 const Sidebar: React.FC<AsideNavProps> = ({ items }) => {
 
-  const storeUI = useStoreUI();
+  const storeUI = useUiStore();
 
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">

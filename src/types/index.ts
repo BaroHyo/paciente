@@ -1,0 +1,1 @@
+export type { NavItem , AsideNavProps} from './navItem.interface'
