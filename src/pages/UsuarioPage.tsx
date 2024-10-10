@@ -48,6 +48,10 @@ export const UsuarioPage: React.FC = () => {
     console.log("Add product clicked!");
   };
 
-  return <DynamicTabs defaultTab="all" tabs={tabsData} onAddProduct={handleAddProduct} />;
+  return <DynamicTabs
+    defaultTab="all"
+    tabs={tabsData}
+    onAddProduct={handleAddProduct}
+  />;
 
 }
