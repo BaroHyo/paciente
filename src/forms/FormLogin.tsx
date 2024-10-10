@@ -27,9 +27,8 @@ export const FormLogin: React.FC = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log(data);
     login();
-    navigate("/paciente");
+    navigate("/dashboard/bienvenido");
   };
 
   return (
@@ -52,13 +51,13 @@ export const FormLogin: React.FC = () => {
             placeholder="*********"
           />
         </div>
-        <div className="grid gap-2">
+        {/* <div className="grid gap-2">
           <Alert variant="destructive">
             <AlertDescription>
               Your session has expired. Please log in again.
             </AlertDescription>
           </Alert>
-        </div>
+        </div> */}
         <Button type="submit" className="w-full">
           Ingresar
         </Button>

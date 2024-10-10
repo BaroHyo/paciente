@@ -5,7 +5,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { TooltipProvider } from "./components/ui/tooltip";
-import { useAuth } from "./hooks/useAuth";
 import {
   CatalogoPage,
   EstudioPage,
@@ -13,13 +12,12 @@ import {
   MedicoPage,
   PacientePage,
   UsuarioPage,
+  WelcomePage,
 } from "./pages";
 import { DashboardPaciente } from "./layouts/DashboardPaciente";
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuth();
 
-  console.log(isAuthenticated);
 
   const router = createBrowserRouter([
     {
@@ -30,6 +28,10 @@ const App: React.FC = () => {
       path: "/dashboard",
       element: <DashboardPaciente />,
       children: [
+        {
+          path: "bienvenido",
+          element: <WelcomePage />,
+        },
         {
           path: "usuario",
           element: <UsuarioPage />,

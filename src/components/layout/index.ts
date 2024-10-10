@@ -1,0 +1,2 @@
+export { DynamicTabs } from "./DynamicTabs";
+

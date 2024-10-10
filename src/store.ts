@@ -49,4 +49,5 @@ export const usePatientStore = create<PatientState>()(
         }), {
             name: 'patient-storage'
         })
-    ))
+    )
+)
