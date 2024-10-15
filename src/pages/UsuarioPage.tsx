@@ -1,16 +1,19 @@
-import React from "react";
-import { DynamicTabs } from "@/components/layout";
+import React, { useState } from "react";
+import { DynamicTabs, ModalDynamic } from "@/components/layout";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+ 
+import { FormUsuario } from "@/forms";
+
 
 const tabsData = [
   {
-    label: "All",
-    value: "all",
+    label: "Todos",
+    value: "todo",
     content: <Card x-chunk="dashboard-06-chunk-0">
       <CardHeader>
-        <CardTitle>Products</CardTitle>
+        <CardTitle>Usuarios</CardTitle>
         <CardDescription>
-          Manage your products and view their sales performance.
+          Listado de usuario
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -26,32 +29,56 @@ const tabsData = [
 
   },
   {
-    label: "Active",
-    value: "active",
+    label: "Activos",
+    value: "activos",
     content: <div>Active products content</div>
   },
   {
-    label: "Draft",
-    value: "draft",
+    label: "Inactivos",
+    value: "inactivos",
     content: <div>Draft products content</div>
   },
-  {
+  /*{
     label: "Archived",
     value: "archived",
     content: <div>Archived products content</div>,
     hiddenOnSmallScreens: true
-  }
+  }*/
 ];
 
+
+
 export const UsuarioPage: React.FC = () => {
-  const handleAddProduct = () => {
-    console.log("Add product clicked!");
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleSave = () => {
+    // Lógica para guardar los cambios
+    console.log('Save changes');
+    setModalOpen(false);
   };
 
-  return <DynamicTabs
-    defaultTab="all"
-    tabs={tabsData}
-    onAddProduct={handleAddProduct}
-  />;
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+
+
+  return (<React.Fragment>
+    <DynamicTabs
+      defaultTab="todo"
+      tabs={tabsData}
+      onAddProduct={openModal}
+    />
+    <ModalDynamic
+      title="Registrar Usuario"
+      description="Formulario para registrar un nuevo usuario, donde se puede asignar el rol y la sucursal."
+      onSave={handleSave}
+      isOpen={isModalOpen}
+      onClose={() => setModalOpen(false)}
+    >
+      <FormUsuario />
+    </ModalDynamic>
+  </React.Fragment>);
 
 }

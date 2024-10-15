@@ -28,7 +28,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, PlusCircle } from "lucide-react"
+
+
+
 
 type TableDynamicProps<T> = {
     data: T[];
@@ -63,7 +66,9 @@ export const TableDynamic = <T,>({ data, columns }: TableDynamicProps<T>): JSX.E
     return (
         <div>
             <div className="flex items-center py-4">
-                <Input
+                
+
+                {/* <Input
                     placeholder="Filter emails..."
                     value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
@@ -71,6 +76,7 @@ export const TableDynamic = <T,>({ data, columns }: TableDynamicProps<T>): JSX.E
                     }
                     className="max-w-sm"
                 />
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -93,6 +99,7 @@ export const TableDynamic = <T,>({ data, columns }: TableDynamicProps<T>): JSX.E
                             ))}
                     </DropdownMenuContent>
                 </DropdownMenu>
+              */}
             </div>
             <div className="rounded-md border">
                 <Table>

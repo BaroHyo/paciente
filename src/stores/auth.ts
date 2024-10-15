@@ -18,7 +18,7 @@ export const useAuthStore = create<State & Actions>()(
     persist(
       (set) => ({
         token: null,
-        isAuth: false,
+        isAuth: true,
         errors: null,
         setToken: (token: string | null) =>
           set(() => ({

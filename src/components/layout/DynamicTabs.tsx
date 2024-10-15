@@ -37,7 +37,7 @@ export const DynamicTabs: FC<DynamicTabsProps> = ({ defaultTab = "all", tabs, on
               <Button size="sm" className="h-8 gap-1" onClick={onAddProduct}>
                 <PlusCircle className="h-3.5 w-3.5" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Add Product
+                  Agregar
                 </span>
               </Button>
             </div>
