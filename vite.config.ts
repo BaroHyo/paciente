@@ -16,9 +16,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://localhost:7009", // Cambia esto al puerto donde se ejecuta tu aplicación .NET
-        changeOrigin: true,
-        secure: false,
+        target: "https://localhost:7009", // Dirección del backend .NET
+        changeOrigin: true, // Cambia el origen para que coincida con el backend
+        secure: false, // Si usas HTTPS con certificados autofirmados
+        //rewrite: (path) => path.replace(/^\/apidd/, ""), // Reescribir la URL para quitar '/api'
       },
     },
   },

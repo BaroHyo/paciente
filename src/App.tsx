@@ -15,18 +15,29 @@ import {
   WelcomePage,
 } from "./pages";
 import { DashboardPaciente } from "./layouts/DashboardPaciente";
+import { useAuthStore } from "./stores/auth";
+import { ProtectedRoute } from "./components/layout";
 
 const App: React.FC = () => {
-
+  const isAuth = useAuthStore((state) => state.isAuth);
+  console.log(isAuth);
 
   const router = createBrowserRouter([
     {
       path: "/login",
-      element: <LoginPage />,
+      element: isAuth ? (
+        <Navigate to="/dashboard/bienvenido" replace />
+      ) : (
+        <LoginPage />
+      ), // Redirige si ya está autenticado
     },
     {
       path: "/dashboard",
-      element: <DashboardPaciente />,
+      element: (
+        <ProtectedRoute isAllowed={isAuth}>
+          <DashboardPaciente />
+        </ProtectedRoute>
+      ),
       children: [
         {
           path: "bienvenido",
@@ -54,14 +65,6 @@ const App: React.FC = () => {
         },
       ],
     },
-    /* {
-      path: "/paciente",
-      element: isAuthenticated ? (
-        <PacientePage />
-      ) : (
-        <Navigate to="/login" replace />
-      ),
-    },*/
     {
       path: "*",
       element: <Navigate to="/login" replace />,

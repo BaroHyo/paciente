@@ -9,14 +9,14 @@ import { Form } from "@/components/ui/form";
 import { InputForm } from "@/components/form";
 import { Button } from "@/components/ui/button";
 
-import { useAuth } from "@/hooks/useAuth";
-
 import { LoginSchema } from "@/schema";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAuthStore } from "@/stores/auth";
+import { loginRequest } from "@/api/auth";
+// import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export const FormLogin: React.FC = () => {
+  const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -26,8 +26,12 @@ export const FormLogin: React.FC = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    login();
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
+    const resLogin = await loginRequest({
+      cuenta: data.cuenta,
+      password: data.password,
+    });
+    setToken(resLogin.token);
     navigate("/dashboard/bienvenido");
   };
 
