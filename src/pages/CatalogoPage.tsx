@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 /********/
-import {
-  ColumnDef,
-} from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, PlusCircle } from "lucide-react"
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal, PlusCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,40 +12,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { ModalDynamic, TableDynamic } from "@/components/layout";
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { FormCatalogo } from "@/forms";
-
-function SelectDemo() {
-  return (
-    <Select>
-      <SelectTrigger className="max-w-sm">
-        <SelectValue placeholder="Selecione un  tipo" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Fruits</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  )
-}
+import useCategoriaService from "@/hooks/useCategoriaService";
 
 // types.ts
 export type Payment = {
@@ -89,7 +73,6 @@ export const data: Payment[] = [
     email: "carmella@hotmail.com",
   },
 ];
-
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -176,20 +159,42 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
+const SelectCategoria: React.FC = () => {
+  const { useFetchCategorias } = useCategoriaService();
+  const { data: categorias, isLoading, isError } = useFetchCategorias();
 
+  if (isError) return <div>Error loading categories</div>;
 
-
-
-
+  return (
+    <Select>
+      <SelectTrigger className="max-w-sm">
+        <SelectValue placeholder="Seleccione una categoría" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {isLoading ? (
+            <SelectItem value="loading" disabled>
+              Loading...
+            </SelectItem>
+          ) : (
+            categorias?.map(({ id, nombre }) => (
+              <SelectItem key={id} value={id.toString()}>
+                {nombre}
+              </SelectItem>
+            ))
+          )}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
 
 export const CatalogoPage: React.FC = () => {
-
-
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleSave = () => {
     // Lógica para guardar los cambios
-    console.log('Save changes');
+    console.log("Save changes");
     setModalOpen(false);
   };
 
@@ -208,19 +213,20 @@ export const CatalogoPage: React.FC = () => {
       <CardContent>
         <div className="w-full">
           <div className="flex items-center py-4">
-            <SelectDemo />
+            <SelectCategoria />
 
-            <Button size="sm" className="ml-auto h-8 gap-1 ma"  onClick={openModal} >
+            <Button
+              size="sm"
+              className="ml-auto h-8 gap-1 ma"
+              onClick={openModal}
+            >
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Agregar
               </span>
             </Button>
           </div>
-          <TableDynamic
-            data={data}
-            columns={columns}
-          />
+          <TableDynamic data={data} columns={columns} />
         </div>
 
         <ModalDynamic
@@ -240,8 +246,5 @@ export const CatalogoPage: React.FC = () => {
         </div>
       </CardFooter> */}
     </Card>
-
-  )
-
-
+  );
 };
