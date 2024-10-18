@@ -1,5 +1,5 @@
 import React from "react";
-import { useUiStore } from "@/stores/ui";
+import { useUiStore } from "@/stores/useUiStore";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { PanelLeft } from "lucide-react";

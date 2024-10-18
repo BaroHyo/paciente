@@ -10,7 +10,7 @@ import { InputForm } from "@/components/form";
 import { Button } from "@/components/ui/button";
 
 import { LoginSchema } from "@/schema";
-import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { loginRequest } from "@/api/auth";
 // import { Alert, AlertDescription } from "@/components/ui/alert";
 

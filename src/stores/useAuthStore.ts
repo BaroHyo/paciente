@@ -4,6 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 type State = {
   token: string | null;
   isAuth: boolean;
+  roles: string;
   errors: string | null;
 };
 
@@ -19,6 +20,7 @@ export const useAuthStore = create<State & Actions>()(
       (set) => ({
         token: null,
         isAuth: true,
+        roles: 'admin',
         errors: null,
         setToken: (token: string | null) =>
           set(() => ({

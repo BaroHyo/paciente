@@ -15,12 +15,12 @@ import {
   WelcomePage,
 } from "./pages";
 import { DashboardPaciente } from "./layouts/DashboardPaciente";
-import { useAuthStore } from "./stores/auth";
+import { useAuthStore } from "./stores/useAuthStore";
 import { ErrorAlert, ProtectedRoute } from "./components/layout";
 
 const App: React.FC = () => {
+
   const isAuth = useAuthStore((state) => state.isAuth);
-  console.log(isAuth);
 
   const router = createBrowserRouter([
     {
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <Navigate to="/dashboard/bienvenido" replace />
       ) : (
         <LoginPage />
-      ), // Redirige si ya está autenticado
+      ),  
     },
     {
       path: "/dashboard",

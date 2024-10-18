@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useErrorStore } from '@/stores/useErrorStore';
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -10,7 +11,6 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useErrorStore } from '@/stores/useErrorStore';
 
 export const ErrorAlert: React.FC = () => {
     const error = useErrorStore((state) => state.error);
@@ -35,7 +35,7 @@ export const ErrorAlert: React.FC = () => {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Error</AlertDialogTitle>
+                    <AlertDialogTitle>Error Server</AlertDialogTitle>
                     <AlertDialogDescription>
                         {error}
                     </AlertDialogDescription>

@@ -1,84 +1,45 @@
-import React, { useState } from "react";
-import { DynamicTabs, ModalDynamic } from "@/components/layout";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
- 
-import { FormUsuario } from "@/forms";
-
-
-const tabsData = [
-  {
-    label: "Todos",
-    value: "todo",
-    content: <Card x-chunk="dashboard-06-chunk-0">
-      <CardHeader>
-        <CardTitle>Usuarios</CardTitle>
-        <CardDescription>
-          Listado de usuario
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-
-      </CardContent>
-      <CardFooter>
-        <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-          products
-        </div>
-      </CardFooter>
-    </Card>
-
-  },
-  {
-    label: "Activos",
-    value: "activos",
-    content: <div>Active products content</div>
-  },
-  {
-    label: "Inactivos",
-    value: "inactivos",
-    content: <div>Draft products content</div>
-  },
-  /*{
-    label: "Archived",
-    value: "archived",
-    content: <div>Archived products content</div>,
-    hiddenOnSmallScreens: true
-  }*/
-];
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
+import useModal from "@/hooks/useModal";
+import { ModalDynamic } from "@/components/layout";
+import { FormPersona } from "@/form/FormPersona";
 
 
 
 export const UsuarioPage: React.FC = () => {
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const handleSave = () => {
-    // Lógica para guardar los cambios
-    console.log('Save changes');
-    setModalOpen(false);
-  };
+  return (
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-1 items-center space-x-2">
+            <Button
+              variant="ghost"
+              onClick={handleOpenModal}
+              className="h-8 px-2 lg:px-3"
+            >
+              Agregar
+              <PlusCircle className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        <div className="rounded-md border">
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
+          <ModalDynamic
+            title="Registro Usuario"
+            description="Complete el formulario."
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+          >
+            <FormPersona />
+          </ModalDynamic>
 
-
-
-  return (<React.Fragment>
-    <DynamicTabs
-      defaultTab="todo"
-      tabs={tabsData}
-      onAddProduct={openModal}
-    />
-    <ModalDynamic
-      title="Registrar Usuario"
-      description="Formulario para registrar un nuevo usuario, donde se puede asignar el rol y la sucursal."
-      onSave={handleSave}
-      isOpen={isModalOpen}
-      onClose={() => setModalOpen(false)}
-    >
-      <FormUsuario />
-    </ModalDynamic>
-  </React.Fragment>);
+        </div>
+      </div>
+    </div>
+  );
 
 }

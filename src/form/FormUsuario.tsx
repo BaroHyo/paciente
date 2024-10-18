@@ -7,11 +7,47 @@ import { useForm } from 'react-hook-form';
 import { UsuarioSchema } from '@/schema';
 import { SelectForm, InputForm, DateForm } from '@/components/form';
 
+
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+   FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { CaretSortIcon, CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { cn } from '@/lib/utils';
+
 const GENERO = [
   { id: 1, value: 'Maculino' },
   { id: 2, value: 'Femenino' }
 ]
-
+const languages = [
+  { label: "English", value: "en" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Spanish", value: "es" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Chinese", value: "zh" },
+] as const;
 export const FormUsuario: React.FC = () => {
 
   const form = useForm<z.infer<typeof UsuarioSchema>>({
@@ -31,11 +67,14 @@ export const FormUsuario: React.FC = () => {
     <Form {...form}>
       <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <div className='md:col-span-2'>
+      
+        </div>
+        <div>
           <InputForm
             control={form.control}
-            name="nombre"
-            label="Nombre Completo"
-            placeholder="Ingrese el nombre completo del paciente."
+            name="apellido"
+            label="Apellido Paterno"
+            placeholder="Ingrese el nombre pr."
           />
         </div>
         <div>

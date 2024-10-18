@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { AsideNavProps } from "@/types";
-import { useUiStore } from "@/stores/ui";
+import { useUiStore } from "@/stores/useUiStore";
 
 export const Sidebar: React.FC<AsideNavProps> = ({ items }) => {
   const storeUI = useUiStore();

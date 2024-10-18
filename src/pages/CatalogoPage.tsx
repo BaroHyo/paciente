@@ -27,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FormCatalogo } from "@/forms";
+import { FormCatalogo } from "@/form";
 import useCrudServer from "@/hooks/useCrudServer";
 import { Categoria, Tipo } from "@/types/Categoria.interface";
 
