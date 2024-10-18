@@ -76,7 +76,11 @@ export class GenericService<T extends Entity, K> {
     return useMutation<void, Error, number>({
       mutationFn: this.deleteEntity,
       onSuccess: () => {
+        console.log("Entity deleted, invalidating queries...");
         this.queryClient.invalidateQueries({ queryKey: [this.endpoint] });
+      },
+      onError: (error) => {
+        console.error("Error deleting entity:", error);
       },
     });
   }

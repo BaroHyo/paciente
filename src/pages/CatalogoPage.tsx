@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-/********/
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal, PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModalDynamic, TableDynamic } from "@/components/layout";
@@ -32,108 +29,55 @@ import {
 } from "@/components/ui/select";
 import { FormCatalogo } from "@/forms";
 import useCategoriaService from "@/hooks/useCategoriaService";
+import useCategoriaServiceDet, {
+  ResponseCategoriaDet,
+} from "@/hooks/useCategoriaServiceDet";
+import { ApiResponse } from "@/services/GenericService";
+import {
+  CategoriaDet,
+  useAllDemo,
+  useCreateDemo,
+  useDeleteDemo,
+} from "@/api/demo";
+import { CatalogoSchema } from "@/schema";
+import { z } from "zod";
 
-// types.ts
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
-
-export const data: Payment[] = [
+const columns: ColumnDef<CategoriaDet>[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-];
-
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+    accessorKey: "nombre",
+    header: "Nombre",
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
+      <div className="capitalize">{row.getValue("nombre")}</div>
     ),
-    enableSorting: false,
-    enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "valor",
+    header: "Valor",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">{row.getValue("valor")}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "orden",
     header: ({ column }) => (
       <Button
         variant="ghost"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Email
+        Orden
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("orden")}</div>,
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original;
+
+      const { mutate } = useDeleteDemo();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -143,15 +87,11 @@ export const columns: ColumnDef<Payment>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => mutate(payment.id)}>
+              Eliminar
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -190,17 +130,14 @@ const SelectCategoria: React.FC = () => {
 };
 
 export const CatalogoPage: React.FC = () => {
+  const { data: categoria, isLoading } = useAllDemo();
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const handleSave = () => {
-    // Lógica para guardar los cambios
-    console.log("Save changes");
-    setModalOpen(false);
-  };
+  const handleOpenModal = () => setModalOpen(true);
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
+  const handleCloseModal = () => setModalOpen(false);
+
+  if (isLoading) return <div>Error loading categories</div>;
 
   return (
     <Card x-chunk="dashboard-06-chunk-0">
@@ -214,11 +151,10 @@ export const CatalogoPage: React.FC = () => {
         <div className="w-full">
           <div className="flex items-center py-4">
             <SelectCategoria />
-
             <Button
               size="sm"
               className="ml-auto h-8 gap-1 ma"
-              onClick={openModal}
+              onClick={handleOpenModal}
             >
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -226,25 +162,18 @@ export const CatalogoPage: React.FC = () => {
               </span>
             </Button>
           </div>
-          <TableDynamic data={data} columns={columns} />
+          <TableDynamic data={categoria || []} columns={columns} />
         </div>
 
         <ModalDynamic
           title="Registrar Catalogo"
-          description="Formulario para registrar un nuevo usuario, donde se puede asignar el rol y la sucursal."
-          onSave={handleSave}
+          description="Formulario Catalogos"
           isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          onClose={handleCloseModal}
         >
-          <FormCatalogo />
+          <FormCatalogo categoriaId={1} CloseModal={handleCloseModal} />
         </ModalDynamic>
       </CardContent>
-      {/* <CardFooter>
-        <div className="text-xs text-muted-foreground">
-          Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-          products
-        </div>
-      </CardFooter> */}
     </Card>
   );
 };
