@@ -1,3 +1,5 @@
+export { ErrorAlert } from "./ErrorAlert";
+
 export { ModalDynamic } from "./ModalDynamic";
 
 export { UserMenu } from "./UserMenu";
@@ -7,4 +9,5 @@ export { Sidebar } from "./Sidebar";
 export { ProtectedRoute } from "./ProtectedRoutes";
 export { TableDynamic } from "./TableDynamic";
 export { DynamicTabs } from "./DynamicTabs";
- 
+
+

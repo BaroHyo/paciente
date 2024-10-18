@@ -28,21 +28,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FormCatalogo } from "@/forms";
-import useCategoriaService from "@/hooks/useCategoriaService";
-import useCategoriaServiceDet, {
-  ResponseCategoriaDet,
-} from "@/hooks/useCategoriaServiceDet";
-import { ApiResponse } from "@/services/GenericService";
-import {
-  CategoriaDet,
-  useAllDemo,
-  useCreateDemo,
-  useDeleteDemo,
-} from "@/api/demo";
-import { CatalogoSchema } from "@/schema";
-import { z } from "zod";
+import useCrudServer from "@/hooks/useCrudServer";
+import { Categoria, Tipo } from "@/types/Categoria.interface";
 
-const columns: ColumnDef<CategoriaDet>[] = [
+
+const columns: ColumnDef<Categoria>[] = [
   {
     accessorKey: "nombre",
     header: "Nombre",
@@ -76,7 +66,7 @@ const columns: ColumnDef<CategoriaDet>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
-      const { mutate } = useDeleteDemo();
+      // const { mutate } = useDeleteDemo();
 
       return (
         <DropdownMenu>
@@ -89,7 +79,7 @@ const columns: ColumnDef<CategoriaDet>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
             <DropdownMenuItem>Editar</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => mutate(payment.id)}>
+            <DropdownMenuItem onClick={() => console.log(payment.id)}>
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -100,8 +90,10 @@ const columns: ColumnDef<CategoriaDet>[] = [
 ];
 
 const SelectCategoria: React.FC = () => {
-  const { useFetchCategorias } = useCategoriaService();
-  const { data: categorias, isLoading, isError } = useFetchCategorias();
+
+  const { getAll } = useCrudServer<Tipo>("/categorias", ["categoria"])
+
+  const { data: tipo, isLoading, isError } = getAll;
 
   if (isError) return <div>Error loading categories</div>;
 
@@ -117,7 +109,7 @@ const SelectCategoria: React.FC = () => {
               Loading...
             </SelectItem>
           ) : (
-            categorias?.map(({ id, nombre }) => (
+            tipo?.map(({ id, nombre }) => (
               <SelectItem key={id} value={id.toString()}>
                 {nombre}
               </SelectItem>
@@ -130,7 +122,12 @@ const SelectCategoria: React.FC = () => {
 };
 
 export const CatalogoPage: React.FC = () => {
-  const { data: categoria, isLoading } = useAllDemo();
+
+  const { getAll } = useCrudServer<Categoria>("/categoria-detalle", ["categoria-detalle"])
+
+  const { data: categoria, isLoading } = getAll;
+
+
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => setModalOpen(true);

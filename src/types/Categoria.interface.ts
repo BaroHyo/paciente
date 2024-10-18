@@ -5,3 +5,11 @@ export interface Categoria {
   valor: string;
   orden: number;
 }
+
+
+export interface Tipo {
+  id: number;
+  codigo: string;
+  nombre: string;
+  descripcion: string;
+}

@@ -16,7 +16,7 @@ import {
 } from "./pages";
 import { DashboardPaciente } from "./layouts/DashboardPaciente";
 import { useAuthStore } from "./stores/auth";
-import { ProtectedRoute } from "./components/layout";
+import { ErrorAlert, ProtectedRoute } from "./components/layout";
 
 const App: React.FC = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -73,6 +73,7 @@ const App: React.FC = () => {
 
   return (
     <TooltipProvider>
+      <ErrorAlert />
       <RouterProvider router={router} />
     </TooltipProvider>
   );
