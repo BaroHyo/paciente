@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -7,6 +7,7 @@ import useModal from "@/hooks/useModal";
 import { PersonaSchema } from "@/schema/PersonaSchema";
 import { z } from "zod";
 import { FormPersona } from "@/form/FormPersona";
+import { ClockLoader } from 'react-spinners';
 
 import {
   ColumnDef,
@@ -20,12 +21,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
- 
-import { Checkbox } from "@/components/ui/checkbox"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -41,6 +40,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import useCrudServer from "@/hooks/useCrudServer";
+import { Persona } from "@/types/Persona.interface";
+import { formatDate } from "@/lib/format";
 
 
 interface CardProps {
@@ -100,113 +102,93 @@ const CustomSheetForm: React.FC<Props> = ({ isOpen, side, title, description, on
   )
 }
 
-
-const data: Payment[] = [
+const payments: ColumnDef<Persona>[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
-  },
-]
- 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
- 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
+    accessorKey: "id",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          #
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("id")}</div>
+    ),
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
- 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
- 
-      return <div className="text-right font-medium">{formatted}</div>
+    accessorKey: "primerNombre",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nombres
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
+    cell: ({ row }) => (
+      <div className="w-[150px] capitalize">{`${row.getValue("primerNombre")} ${row.getValue("segundoNombre")}`}</div>
+    ),
+  },
+
+  {
+    accessorKey: "apellidoPaterno",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Apellidos
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="w-[150px] capitalize">{`${row.getValue("apellidoPaterno")} ${row.getValue("apellidoMaterno")}`}</div>
+    ),
+  },
+  {
+    accessorKey: "fechaNacimiento",
+    header: "Fecha Nacimiento",
+    cell: ({ row }) => (
+      <div className="capitalize">{formatDate(new Date(row.getValue("fechaNacimiento")))}</div>
+    ),
+  },
+  {
+    accessorKey: "genero",
+    header: "Genero",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("genero")}</div>
+    ),
+  },
+  {
+    accessorKey: "tipoDocumento",
+    header: "Tipo Docuemnto",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("tipoDocumento")}</div>
+    ),
+  },
+  {
+    accessorKey: "numeroDocumento",
+    header: "Nro. Documento",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("numeroDocumento")}</div>
+    ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
- 
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -218,7 +200,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => { }}
             >
               Copy payment ID
             </DropdownMenuItem>
@@ -232,21 +214,31 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
+/*
+          */
+
 export const PersonaPage: React.FC = () => {
+
+  const { getAll, create } = useCrudServer<Persona>("/persona", ["persona-all"])
+
+  const { data: personas, isLoading } = getAll;
+
+  const data = personas || [];
+
 
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
 
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
   )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
- 
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+
+  const [rowSelection, setRowSelection] = useState({})
+
   const table = useReactTable({
     data,
-    columns,
+    columns: payments,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -262,97 +254,114 @@ export const PersonaPage: React.FC = () => {
       rowSelection,
     },
   })
- 
+
+
 
 
   const handleSubmit = (data: z.infer<typeof PersonaSchema>) => {
+    create.mutate(data)
     handleCloseModal();
   };
+
 
   return (
     <CustomCard
       title="Persona"
       description="Gestionar Personas lista insertar eliminar y actulizar">
-      <div className="w-full">
-        <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-          <Button
-            size="sm"
-            className="ml-auto h-8 gap-1 ma"
-            onClick={handleOpenModal}
-          >
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Agregar
-            </span>
-          </Button>
-        </div>
-        <CustomSheetForm
-          isOpen={isModalOpen}
-          side="top"
-          title="Formulario Persona"
-          onClose={handleCloseModal}
-        >
-          <FormPersona handleSubmit={handleSubmit} />
-        </CustomSheetForm>
-        <div className="rounded-md border">
-        <Table >
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+      {
+        isLoading ? (<div className="absolute inset-0 flex justify-center items-center">
+          <ClockLoader size={35} color={"#000000"} loading={isLoading} />
+        </div>) : (
+          <div className="w-full">
+            <div className="flex items-center py-4">
+              <Input
+                placeholder="Filter emails..."
+                value={(table.getColumn("primerNombre")?.getFilterValue() as string) ?? ""}
+                onChange={(event) =>
+                  table.getColumn("primerNombre")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
+              <Button
+                size="sm"
+                className="ml-auto h-8 gap-1 ma"
+                onClick={handleOpenModal}
+              >
+                <PlusCircle className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                  Agregar
+                </span>
+              </Button>
+            </div>
+            <CustomSheetForm
+              isOpen={isModalOpen}
+              side="top"
+              title="Formulario Persona"
+              onClose={handleCloseModal}
+            >
+              <FormPersona handleSubmit={handleSubmit} />
+            </CustomSheetForm>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <TableHead key={header.id}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                          </TableHead>
+                        )
+                      })}
+                    </TableRow>
                   ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+                </TableHeader>
+                <TableBody>
+                  {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => (
+                      <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={payments.length}
+                        className="h-24 text-center"
+                      >
+                        No results.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        )
+      }
+
+    </CustomCard>
+  );
+};
+
+/* */
+
+{/* <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -375,8 +384,4 @@ export const PersonaPage: React.FC = () => {
             Next
           </Button>
         </div>
-      </div>
-      </div>
-    </CustomCard>
-  );
-};
+      </div> */}

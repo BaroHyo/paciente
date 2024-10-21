@@ -9,8 +9,8 @@ import { DateForm, InputForm, SelectForm } from "@/components/form";
 import { Button } from "@/components/ui/button";
 
 const TIPO_DOCUMENTO = [
-  { name: "Cedula Identidad", value: "cedula identidad" },
-  { name: "Pasaporte", value: "pasaporte" },
+  { name: "Cedula Identidad", value: "Cedula Identidad" },
+  { name: "Pasaporte", value: "Pasaporte" },
 ];
 const GENERO = [
   { name: "Masculino", value: "masculino" },
