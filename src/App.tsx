@@ -15,9 +15,9 @@ import {
   UsuarioPage,
   WelcomePage,
 } from "./pages";
-import { DashboardPaciente } from "./layouts/DashboardPaciente";
 import { useAuthStore } from "./stores/useAuthStore";
 import { ErrorAlert, ProtectedRoute } from "./components/layout";
+import { HomeLayout } from "./layouts/HomeLayout";
 
 const App: React.FC = () => {
   const isAuth = useAuthStore((state) => state.isAuth);
@@ -35,7 +35,7 @@ const App: React.FC = () => {
       path: "/dashboard",
       element: (
         <ProtectedRoute isAllowed={isAuth}>
-          <DashboardPaciente />
+          <HomeLayout/>
         </ProtectedRoute>
       ),
       children: [

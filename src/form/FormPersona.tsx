@@ -43,7 +43,7 @@ export const FormPersona: React.FC<Props> = ({ handleSubmit }) => {
 
   return (
     <Form {...form}>
-      <div className="max-w-full md:max-w-4xl  p-4 overflow-auto">
+      <div className="max-w-full p-10 overflow-auto">
         <form
           className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4"
           onSubmit={form.handleSubmit(onSubmit)}
@@ -115,22 +115,6 @@ export const FormPersona: React.FC<Props> = ({ handleSubmit }) => {
               placeholder="Ingrese el nro. documento."
             />
           </div>
-          {/* <div>
-            <InputForm
-              control={form.control}
-              name="direccion"
-              label="Dirección"
-              placeholder="Ingrese la dirección."
-            />
-          </div>
-          <div>
-            <InputForm
-              control={form.control}
-              name="telefono"
-              label="Teléfono"
-              placeholder="Ingrese el teléfono."
-            />
-          </div> */}
           <div className="col-span-2">
             <Button type="submit" className="w-full">
               Agregar

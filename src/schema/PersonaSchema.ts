@@ -11,12 +11,14 @@ export const PersonaSchema = z.object({
   apellidoPaterno: z.string().min(2, {
     message: "El apellido paterno debe tener al menos 2 caracteres.",
   }),
-  apellidoMaterno: z.string().optional(),
+  apellidoMaterno: z.string().min(2, {
+    message: "El apellido materno debe tener al menos 2 caracteres.",
+  }),
   fechaNacimiento: z.date({ required_error: mensajeRequerido }),
   genero: z.string({ required_error: mensajeRequerido }),
   tipoDocumento: z.string({ required_error: mensajeRequerido }),
-  numeroDocumento: z.string().min(9, {
-    message: "La cédula de identidad debe tener al menos 9 caracteres.",
+  numeroDocumento: z.string().min(7, {
+    message: "La cédula de identidad debe tener al menos 7 caracteres.",
   }),
   direccion: z.string().optional(),
   telefono: z.string().optional(),
