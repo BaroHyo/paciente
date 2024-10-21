@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   BadgeCheck,
@@ -73,6 +73,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
+import React from "react";
 
 const data = {
   user: {
@@ -103,12 +104,12 @@ const data = {
       icon: BookMarked,
       items: [
         {
-          title: "Catalogs",
+          title: "Catalogos",
           url: "catalogo",
         },
         {
           title: "Estudios",
-          url: "catalogo",
+          url: "estudio",
         },
         {
           title: "Medicos",
@@ -123,79 +124,14 @@ const data = {
       items: [
         {
           title: "Registro",
-          url: "Pacientes",
+          url: "paciente",
         },
         {
           title: "Consultas",
-          url: "Pacientes",
+          url: "consulta",
         },
       ],
     },
-    // {
-    //   title: "Models",
-    //   url: "#",
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: "Genesis",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Explorer",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Quantum",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
   ],
   navSecondary: [
     {
@@ -251,6 +187,10 @@ const HeaderSidebar: React.FC = () => {
 
 
 export const HomeLayout: React.FC = () => {
+
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/").filter(Boolean);
+
   return (
     <SidebarProvider>
       <Sidebar variant="inset">
@@ -348,6 +288,7 @@ export const HomeLayout: React.FC = () => {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
+       */}
           <SidebarGroup className="mt-auto">
             <SidebarGroupContent>
               <SidebarMenu>
@@ -363,10 +304,10 @@ export const HomeLayout: React.FC = () => {
                 ))}
               </SidebarMenu>
             </SidebarGroupContent>
-          </SidebarGroup> */}
+          </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          {/* <SidebarMenu>
+          <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -419,37 +360,16 @@ export const HomeLayout: React.FC = () => {
                       </div>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <Sparkles />
-                      Upgrade to Pro
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                      <BadgeCheck />
-                      Account
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <CreditCard />
-                      Billing
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Bell />
-                      Notifications
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
+
+
                   <DropdownMenuItem>
-                    <LogOut />
+                    <LogOut size={15} />
                     Log out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
-          </SidebarMenu> */}
+          </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
@@ -457,19 +377,25 @@ export const HomeLayout: React.FC = () => {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
+            <Breadcrumb className="hidden md:flex">
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {pathSegments.map((segment, index) => {
+                  const to = `/${pathSegments.slice(0, index + 1).join("/")}`;
+                  return (
+                    <React.Fragment key={index}>
+                      <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                          <Link to={to}>
+                            {segment.charAt(0).toUpperCase() + segment.slice(1)}
+                          </Link>
+                        </BreadcrumbLink>
+                      </BreadcrumbItem>
+                      {index < pathSegments.length - 1 && <BreadcrumbSeparator />}
+                    </React.Fragment>
+                  );
+                })}
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> 
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

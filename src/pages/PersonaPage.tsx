@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import useModal from "@/hooks/useModal";
 import { PersonaSchema } from "@/schema/PersonaSchema";
 import { z } from "zod";
@@ -43,64 +41,9 @@ import {
 import useCrudServer from "@/hooks/useCrudServer";
 import { Persona } from "@/types/Persona.interface";
 import { formatDate } from "@/lib/format";
+import { CustomCard, CustomSheetForm } from "@/components/layout";
 
 
-interface CardProps {
-  title: string;
-  description?: string;
-  children?: React.ReactNode; // Para incluir contenido dinámico dentro del Card
-}
-
-const CustomCard: React.FC<CardProps> = ({ title, description, children }) => {
-  return (
-    <Card x-chunk="dashboard-06-chunk-0" className="h-full">
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        {description && (<CardDescription>
-          {description}
-        </CardDescription>)}
-        <CardContent>
-          {children}
-        </CardContent>
-      </CardHeader>
-    </Card>
-  );
-};
-
-const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
-
-type SheetSideType = typeof SHEET_SIDES[number];
-
-
-type Props = {
-  isOpen: boolean;
-  side: SheetSideType;
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-  onClose: () => void;
-}
-
-const CustomSheetForm: React.FC<Props> = ({ isOpen, side, title, description, onClose, children }) => {
-  return (
-    <Sheet open={isOpen} modal={true} onOpenChange={onClose}>
-      <SheetContent side={side} onInteractOutside={(event) => event.preventDefault()}>
-        <SheetHeader>
-          <SheetTitle>{title}</SheetTitle>
-          {
-            description && (
-              <SheetDescription>
-                {description}
-              </SheetDescription>
-            )
-          }
-        </SheetHeader>
-        {children}
-      </SheetContent>
-    </Sheet>
-
-  )
-}
 
 const payments: ColumnDef<Persona>[] = [
   {
@@ -134,7 +77,7 @@ const payments: ColumnDef<Persona>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className="w-[150px] capitalize">{`${row.getValue("primerNombre")} ${row.getValue("segundoNombre")}`}</div>
+      <div className="w-[150px] capitalize">{`${row.getValue("primerNombre")} ${row.original.segundoNombre}`}</div>
     ),
   },
 
@@ -152,7 +95,7 @@ const payments: ColumnDef<Persona>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className="w-[150px] capitalize">{`${row.getValue("apellidoPaterno")} ${row.getValue("apellidoMaterno")}`}</div>
+      <div className="w-[150px] capitalize">{`${row.getValue("apellidoPaterno")} ${row.original.apellidoMaterno}`}</div>
     ),
   },
   {
@@ -188,7 +131,6 @@ const payments: ColumnDef<Persona>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const payment = row.original
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -214,8 +156,7 @@ const payments: ColumnDef<Persona>[] = [
   },
 ]
 
-/*
-          */
+
 
 export const PersonaPage: React.FC = () => {
 

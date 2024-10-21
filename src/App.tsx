@@ -7,6 +7,7 @@ import {
 import { TooltipProvider } from "./components/ui/tooltip";
 import {
   CatalogoPage,
+  ConsultaPage,
   EstudioPage,
   LoginPage,
   MedicoPage,
@@ -66,6 +67,10 @@ const App: React.FC = () => {
         {
           path: "paciente",
           element: <PacientePage />,
+        },
+        {
+          path: "consulta",
+          element: <ConsultaPage />,
         },
       ],
     },

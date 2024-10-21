@@ -1,3 +1,5 @@
+export { ConsultaPage } from "./ConsultaPage";
+
 export { PersonaPage } from "./PersonaPage";
 
 export { WelcomePage } from "./WelcomePage";
@@ -7,3 +9,4 @@ export { MedicoPage } from "./MedicoPage";
 export { CatalogoPage } from "./CatalogoPage";
 export { LoginPage } from "./LoginPage";
 export { PacientePage } from "./PacientePage";
+ 
