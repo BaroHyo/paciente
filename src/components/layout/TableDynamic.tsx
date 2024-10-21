@@ -12,14 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+ 
 import {
   Table,
   TableBody,
@@ -28,8 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronDown, PlusCircle } from "lucide-react";
-
+ 
 type TableDynamicProps<T> = {
   data: T[];
   columns: ColumnDef<T>[];

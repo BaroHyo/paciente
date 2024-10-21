@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const FormCatalogo: React.FC<Props> = ({ categoriaId, CloseModal }) => {
-//  const { mutate } = useCreateDemo();
+  //  const { mutate } = useCreateDemo();
 
   const form = useForm<z.infer<typeof CatalogoSchema>>({
     resolver: zodResolver(CatalogoSchema),
@@ -28,7 +28,8 @@ export const FormCatalogo: React.FC<Props> = ({ categoriaId, CloseModal }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof CatalogoSchema>) => {
-   // await mutate(data);
+    // await mutate(data);
+    console.log(data);
     CloseModal();
   };
 

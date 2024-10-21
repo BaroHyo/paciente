@@ -1,32 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 
 import {
-  BadgeCheck,
-  Bell,
   BookMarked,
-  BookOpen,
-  Bot,
   ChevronRight,
   ChevronsUpDown,
   Command,
-  CreditCard,
-  Folder,
   Frame,
-  HomeIcon,
   LifeBuoy,
   LogOut,
   Map,
-  MoreHorizontal,
   NotebookTabs,
   PieChart,
   Send,
-  Settings2,
-  Share,
-  Sparkles,
-  SquareTerminal,
-  Trash2,
   User,
-  UserIcon,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -35,7 +21,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
@@ -46,10 +31,8 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -395,7 +378,7 @@ export const HomeLayout: React.FC = () => {
                   );
                 })}
               </BreadcrumbList>
-            </Breadcrumb> 
+            </Breadcrumb>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

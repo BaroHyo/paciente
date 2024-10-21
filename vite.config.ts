@@ -10,7 +10,16 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "../wwwroot", // Ajusta la ruta según tu estructura de carpetas
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return id.split('node_modules/')[1].split('/')[0].toString(); // Crea un chunk por cada módulo de node_modules
+          }
+        },
+      },
+    },
+   // outDir: "../wwwroot", // Ajusta la ruta según tu estructura de carpetas
     emptyOutDir: true, // Limpia la carpeta de salida antes de construir
   },
   server: {

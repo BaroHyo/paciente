@@ -130,7 +130,9 @@ const payments: ColumnDef<Persona>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      console.log(row);
+      
+     // const payment = row.original
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
