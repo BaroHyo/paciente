@@ -41,13 +41,11 @@ export function SelectForm<T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <Select
-            onValueChange={(value) =>
-              field.onChange(
-                isNaN(Number(value)) ? value : Number(value) // Convertir a número si es numérico
-              )
-            }
-            value={field.value?.toString()} // Convertir a string para mantener la consistencia con Select
-            defaultValue={field.value?.toString()}
+            onValueChange={(value) => {
+              const newValue = isNaN(Number(value)) ? value : Number(value);
+              field.onChange(newValue);
+            }}
+            value={field.value?.toString() || ""}
           >
             <FormControl>
               <SelectTrigger>
@@ -57,10 +55,10 @@ export function SelectForm<T extends FieldValues>({
             <SelectContent>
               {options.map((option) => (
                 <SelectItem
-                  key={option[valueKey].toString()} // Convertir el valor a string para la key
-                  value={option[valueKey].toString()} // Asegurarnos de pasar el valor como string
+                  key={option[valueKey].toString()}
+                  value={option[valueKey].toString()}
                 >
-                  {option[labelKey]} {/* Mostrar el label */}
+                  {option[labelKey]}
                 </SelectItem>
               ))}
             </SelectContent>

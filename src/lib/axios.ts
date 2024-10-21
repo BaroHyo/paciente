@@ -3,8 +3,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 
 // Crear una instancia de Axios
 const api = axios.create({
-  // baseURL: "https://localhost:7009/api", // Base URL que se usará para las solicitudes
-  baseURL: "/api", // Solo el prefijo '/api', el proxy de Vite redirige al backend
+  baseURL: "https://localhost:7009/api", // Base URL que se usará para las solicitudes
+  //baseURL: "/api", // Solo el prefijo '/api', el proxy de Vite redirige al backend
 });
 
 // Configurar interceptores (opcional)

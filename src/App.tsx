@@ -11,6 +11,7 @@ import {
   LoginPage,
   MedicoPage,
   PacientePage,
+  PersonaPage,
   UsuarioPage,
   WelcomePage,
 } from "./pages";
@@ -19,7 +20,6 @@ import { useAuthStore } from "./stores/useAuthStore";
 import { ErrorAlert, ProtectedRoute } from "./components/layout";
 
 const App: React.FC = () => {
-
   const isAuth = useAuthStore((state) => state.isAuth);
 
   const router = createBrowserRouter([
@@ -29,7 +29,7 @@ const App: React.FC = () => {
         <Navigate to="/dashboard/bienvenido" replace />
       ) : (
         <LoginPage />
-      ),  
+      ),
     },
     {
       path: "/dashboard",
@@ -46,6 +46,10 @@ const App: React.FC = () => {
         {
           path: "usuario",
           element: <UsuarioPage />,
+        },
+        {
+          path: "persona",
+          element: <PersonaPage />,
         },
         {
           path: "catalogo",
