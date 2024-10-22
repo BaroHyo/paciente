@@ -6,15 +6,13 @@ import { CatalogoSchema } from "@/schema";
 import { Form } from "@/components/ui/form";
 import { InputForm } from "@/components/form";
 import { Button } from "@/components/ui/button";
-//import { useCreateDemo } from "@/api/demo";
 
 type Props = {
   categoriaId: number;
-  CloseModal: () => void;
+  closeSubmitModal: (data: z.infer<typeof CatalogoSchema>) => void;
 };
 
-export const FormCatalogo: React.FC<Props> = ({ categoriaId, CloseModal }) => {
-  //  const { mutate } = useCreateDemo();
+export const FormCatalogo: React.FC<Props> = ({ categoriaId, closeSubmitModal }) => {
 
   const form = useForm<z.infer<typeof CatalogoSchema>>({
     resolver: zodResolver(CatalogoSchema),
@@ -28,9 +26,7 @@ export const FormCatalogo: React.FC<Props> = ({ categoriaId, CloseModal }) => {
   });
 
   const onSubmit = async (data: z.infer<typeof CatalogoSchema>) => {
-    // await mutate(data);
-    console.log(data);
-    CloseModal();
+    closeSubmitModal(data);
   };
 
   return (

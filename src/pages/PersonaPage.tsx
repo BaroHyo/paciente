@@ -287,7 +287,7 @@ export const PersonaPage: React.FC = () => {
                         colSpan={payments.length}
                         className="h-24 text-center"
                       >
-                        No results.
+                        Sin resultados.
                       </TableCell>
                     </TableRow>
                   )}
