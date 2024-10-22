@@ -17,7 +17,9 @@ interface Props<T extends FieldValues> {
     control: Control<T>;
     name: Path<T>;
     label: string;
-    options: Array<Record<string, any>> // Usa Record para permitir cualquier clave y tipo
+    options: Array<Record<string, any>>;
+    labelKey: string;
+    valueKey: string;
     placeholder?: string; // Placeholder opcional
 }
 
@@ -26,6 +28,8 @@ export function ComboxForm<T extends FieldValues>({
     name,
     label,
     options,
+    labelKey,
+    valueKey,
     placeholder = "Select an option",
 }: Props<T>) {
     return (
@@ -47,33 +51,33 @@ export function ComboxForm<T extends FieldValues>({
                                     )}
                                 >
                                     {field.value
-                                        ? options.find((option) => option.value === field.value)?.label
+                                        ? options.find((option) => option[valueKey] === field.value)?.[labelKey]
                                         : placeholder}
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </FormControl>
                         </PopoverTrigger>
-                        <PopoverContent className="w-full p-0">
-                            <Command>
-                                <CommandInput placeholder={`Search ${label.toLowerCase()}...`} />
+                        <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height]">
+                        <Command>
+                                <CommandInput placeholder={`Buscar ${label.toLowerCase()}...`} />
                                 <CommandList>
                                     <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
                                     <CommandGroup>
                                         {options.map((option) => (
                                             <CommandItem
-                                                value={option.label}
-                                                key={option.value}
-                                                onSelect={() => field.onChange(option.value)}
+                                                value={option[labelKey]}
+                                                key={option[valueKey]}
+                                                onSelect={() => field.onChange(option[valueKey])}
                                             >
                                                 <Check
                                                     className={cn(
                                                         "mr-2 h-4 w-4",
-                                                        option.value === field.value
+                                                        option[valueKey] === field.value
                                                             ? "opacity-100"
                                                             : "opacity-0"
                                                     )}
                                                 />
-                                                {option.label}
+                                                {option[labelKey]}
                                             </CommandItem>
                                         ))}
                                     </CommandGroup>

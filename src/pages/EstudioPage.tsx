@@ -1,3 +1,4 @@
+ import Component from "@/components/demo/DemoTable";
 import { CustomCard } from "@/components/layout";
 import React from "react"; 
 
@@ -9,6 +10,7 @@ export const EstudioPage: React.FC = () => {
     <CustomCard
     title="Estudios"
     description="Gestionar Estudios lista insertar eliminar y actulizar">
+      <Component/>
   </CustomCard>
   );
 };
